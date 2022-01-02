@@ -1,0 +1,59 @@
+﻿@model PatientTestRecordVM
+
+@{
+    ViewData["Title"] = "MyTest";
+}
+
+<h1>MyTest</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                ReportStatus
+            </th>
+            <th>
+                Test Type
+            </th>
+            <th>
+               Test TimeSlot
+            </th>
+            <th>
+               Nurse
+            </th>
+            <th>
+                Final test raport
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.TestRecords) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReportStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestTypeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestTimeslot)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NurseId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestResult)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

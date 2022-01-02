@@ -1,0 +1,48 @@
+﻿@model CovidTestManagementSystem.Models.TestRecordVM
+@using CovidTestManagementSystem.Enum
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_AdminLTE.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>TestRecordVM</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TestRecord.TestAppointment.Id" class="control-label"></label>
+                <input asp-for="TestRecord.TestAppointment.Id" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="TestRecord.NurseId" class="control-label"></label>
+                @Html.DropDownListFor(q => q.TestRecord.NurseId, new SelectList(Model.Nurses, "Value", "Text"), "Select Which Nurse", new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label asp-for="TestRecord.TestResultId" class="control-label"></label>
+                @Html.DropDownListFor(q => q.TestRecord.TestResultId, new SelectList(Enum.GetValues(typeof(TestResultEnum))), "Select result", new { @class = "form-control" })
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="TestRecord.ToLab" /> @Html.DisplayNameFor(model => model.TestRecord.ToLab)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="TestRecord.ReportStatus" /> @Html.DisplayNameFor(model => model.TestRecord.ReportStatus)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

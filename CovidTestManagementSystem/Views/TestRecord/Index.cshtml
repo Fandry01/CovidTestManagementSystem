@@ -1,0 +1,60 @@
+﻿@model IEnumerable<CovidTestManagementSystem.Models.TestRecordVM>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLTE.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TestRecord.ReportStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestRecord.TestTypeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestRecord.TestTimeslot)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestRecord.NurseId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestRecord.ReportStatus)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestRecord.ReportStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestRecord.TestTypeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestRecord.TestTimeslot)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestRecord.NurseId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestRecord.ReportStatus)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.TestRecord.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.TestRecord.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.TestRecord.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

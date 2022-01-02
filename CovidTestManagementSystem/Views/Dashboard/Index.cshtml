@@ -1,0 +1,104 @@
+﻿@model CovidTestManagementSystem.Models.PatientDashboardVM
+
+@{
+    ViewData["Title"] = "PatientDashboardIndex";
+}
+
+
+<h1> DashBoard </h1>
+<div class="card" style="width: 18rem;">
+    <div class="card-header">
+        <h3 class="card-title">Personal information</h3>
+        <div class="card-tools">
+            <!-- Buttons, labels, and many other things can be placed here! -->
+            <!-- Here is a label for example -->
+            <span class="badge badge-primary">Label</span>
+        </div>
+        <!-- /.card-tools -->
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body bg-light">
+        <div class="row">
+            <div class="col">First Name :</div>
+            <div class="col">@Model.Patient.FirstName</div>
+            <div class="w-100"></div>
+            <div class="col">Last Name :</div>
+            <div class="col">@Model.Patient.LastName</div>
+            <div class="w-100"></div>
+            <div class="col">Sofi Nummer :</div>
+            <div class="col">@Model.Patient.Sofinummer</div>
+            <div class="w-100"></div>
+            <div class="col">TelNummer :</div>
+            <div class="col">@Model.Patient.PhoneNumber</div>
+            <div class="w-100"></div>
+            <div class="col">email :</div>
+            <div class="col">@Model.Patient.Email</div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">My testrecord's</h3>
+        <!-- /.card-tools -->
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body bg-light">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        ReportStatus
+                    </th>
+                    <th>
+                        Test Type
+                    </th>
+                    <th>
+                        Test TimeSlot
+                    </th>
+                    <th>
+                        Nurse
+                    </th>
+                    <th>
+                        Final test raport
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+
+                @foreach (var item in Model.Patient.TestRecords)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TestTypeId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TestTimeslot)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ReportStatus)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+<!-- /.card -->
+
+
+

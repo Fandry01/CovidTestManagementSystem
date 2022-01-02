@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using CovidTestManagementSystem.Data;
 using CovidTestManagementSystem.Models;
+using CovidTestManagementSystem.Models;
+using CovidTestManagementSystem.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace CovidTestManagementSystem.Mappings
         {
             CreateMap<TestTypes, TestTypeVM>().ReverseMap();
             CreateMap<Nurse, NursesVM>().ReverseMap();
+            CreateMap<TestAppointment, TestAppointmentVM>().ReverseMap();
 
         }
     }

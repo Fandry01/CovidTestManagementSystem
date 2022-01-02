@@ -1,5 +1,5 @@
 ﻿using CovidTestManagementSystem.Contracts;
-using CovidTestManagementSystem.Data;
+using CovidTestManagementSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +36,11 @@ namespace CovidTestManagementSystem.Repository
         {
             var testTypes = _db.TestTypes.Find(id);
             return testTypes;
+        }
+
+        public TestTypes GetTestTypeByPatient(string patientId, int TestTypeId)
+        {
+            throw new NotImplementedException();
         }
 
         public bool IsExists(int id)

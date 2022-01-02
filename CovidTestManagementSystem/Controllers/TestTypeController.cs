@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using CovidTestManagementSystem.Contracts;
-using CovidTestManagementSystem.Data;
+using CovidTestManagementSystem.Models;
 using CovidTestManagementSystem.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

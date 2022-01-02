@@ -1,5 +1,5 @@
 using CovidTestManagementSystem.Contracts;
-using CovidTestManagementSystem.Data;
+using CovidTestManagementSystem.Models;
 using CovidTestManagementSystem.Mappings;
 using CovidTestManagementSystem.Repository;
 using Microsoft.AspNetCore.Builder;
@@ -36,10 +36,13 @@ namespace CovidTestManagementSystem
 
             services.AddScoped<ITestTypeRepository, TestTypeRepository>();
             services.AddScoped<INursesRepository, NurseRepository>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
+            services.AddScoped<ITestRecordRepository, TestRecordRepository>();
+            services.AddScoped<ITestAppointRepository, TestAppointRepository>();
 
             services.AddAutoMapper(typeof(Maps));
 
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<Person>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -48,12 +51,13 @@ namespace CovidTestManagementSystem
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,UserManager<IdentityUser> userManager,RoleManager<IdentityRole> roleManager)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,UserManager<Person> userManager,RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+                app.UseBrowserLink();
             }
             else
             {
@@ -71,6 +75,8 @@ namespace CovidTestManagementSystem
             app.UseAuthorization();
 
             SeedData.Seed(userManager, roleManager);
+
+            
 
             app.UseEndpoints(endpoints =>
             {
