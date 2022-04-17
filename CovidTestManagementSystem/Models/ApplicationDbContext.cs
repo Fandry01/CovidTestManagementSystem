@@ -29,6 +29,8 @@ namespace CovidTestManagementSystem.Models
         public DbSet<TestTypes> TestTypes { get; set; }
         public DbSet<TestRecord>TestRecords { get; set; }
         public DbSet<TestAppointment> TestAppointments { get; set; } 
+        public DbSet<CovidTestManagementSystem.ViewModels.TestAppointmentVM> TestAppointmentVM { get; set; }
+        public DbSet<CovidTestManagementSystem.Models.DetailsTestRecordVM> DetailsTestRecordVM { get; set; }
        
     }
 }

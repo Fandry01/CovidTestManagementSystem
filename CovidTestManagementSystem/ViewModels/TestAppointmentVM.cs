@@ -36,6 +36,13 @@ namespace CovidTestManagementSystem.ViewModels
         public int TestTypeId { get; set; }
     }
 
-   
-  
- }
+    public class EditTestAppointmentVM
+    {
+       public TestAppointmentVM Id { get; set; }
+        public DateTime AppointmentTime { get; set; }
+        public IEnumerable<SelectListItem> TestType { get; set; }
+        public int TestTypeId { get; set; }
+    }
+
+
+}

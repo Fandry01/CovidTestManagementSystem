@@ -1,4 +1,4 @@
-﻿using CovidTestManagementSystem.Enum;
+﻿using CovidTestManagementSystem.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;

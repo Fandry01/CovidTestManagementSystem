@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CovidTestManagementSystem.Models.TestRecordVM>
+﻿@model IEnumerable<CovidTestManagementSystem.Models.TestRecord>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,19 +14,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TestRecord.ReportStatus)
+                @Html.DisplayNameFor(model => model.ReportStatus)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TestRecord.TestTypeId)
+                @Html.DisplayNameFor(model => model.TestTypeId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TestRecord.TestTimeslot)
+                @Html.DisplayNameFor(model => model.TestTimeslot)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TestRecord.NurseId)
+                @Html.DisplayNameFor(model => model.NurseId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TestRecord.ReportStatus)
+                @Html.DisplayNameFor(model => model.ReportStatus)
             </th>
             <th></th>
         </tr>
@@ -35,24 +35,24 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.TestRecord.ReportStatus)
+                @Html.DisplayFor(modelItem => item.ReportStatus)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TestRecord.TestTypeId)
+                @Html.DisplayFor(modelItem => item.TestTypeId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TestRecord.TestTimeslot)
+                @Html.DisplayFor(modelItem => item.TestTimeslot)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TestRecord.NurseId)
+                @Html.DisplayFor(modelItem => item.NurseId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TestRecord.ReportStatus)
+                @Html.DisplayFor(modelItem => item.ReportStatus)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.TestRecord.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.TestRecord.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.TestRecord.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

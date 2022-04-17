@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using CovidTestManagementSystem.Contracts;
 using CovidTestManagementSystem.Models;
-using CovidTestManagementSystem.Models;
 using CovidTestManagementSystem.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -106,20 +105,38 @@ namespace CovidTestManagementSystem.Controllers
         // GET: TestAppointmentController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            if (!_repo.IsExists(id))
+            {
+                return NotFound();
+            }
+            var testappoint = _repo.FindById(id);
+            var model = _mapper.Map<EditTestAppointmentVM>(testappoint);
+            return View(model);
         }
 
         // POST: TestAppointmentController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(EditTestAppointmentVM model)
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+                var appointment = _mapper.Map<TestAppointment>(model);
+                var isSucces = _repo.Update(appointment);
+                if (!isSucces)
+                {
+                    ModelState.AddModelError("", "Something went Wrong");
+                    return View(model);
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
+                ModelState.AddModelError("", "Something went wrong");
                 return View();
             }
         }

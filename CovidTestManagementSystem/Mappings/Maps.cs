@@ -16,6 +16,9 @@ namespace CovidTestManagementSystem.Mappings
             CreateMap<TestTypes, TestTypeVM>().ReverseMap();
             CreateMap<Nurse, NursesVM>().ReverseMap();
             CreateMap<TestAppointment, TestAppointmentVM>().ReverseMap();
+            CreateMap<TestAppointment, EditTestAppointmentVM>().ReverseMap();
+            CreateMap<TestRecord, TestRecordVM>().ReverseMap();
+            CreateMap<TestRecord, DetailsTestRecordVM>().ReverseMap();
 
         }
     }

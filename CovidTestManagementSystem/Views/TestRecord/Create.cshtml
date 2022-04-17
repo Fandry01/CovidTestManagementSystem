@@ -1,5 +1,5 @@
 ﻿@model CovidTestManagementSystem.Models.TestRecordVM
-@using CovidTestManagementSystem.Enum
+@using CovidTestManagementSystem.Enums
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_AdminLTE.cshtml";
@@ -18,13 +18,17 @@
                 <input asp-for="TestRecord.TestAppointment.Id" class="form-control" readonly />
             </div>
             <div class="form-group">
+                <label asp-for="TestRecord.TestAppointment.TestTypeId" class="control-label"></label>
+                <input asp-for="TestRecord.TestAppointment.TestTypeId" class="form-control" readonly />
+            </div>
+            <div class="form-group"><div class="form-group">
+    <label asp-for="TestRecord.TestResultId" class="control-label"></label>
+    @Html.DropDownListFor(q => q.TestRecord.TestResultId, Model.ReportStatuses, "Select result", new { @class = "form-control" })
+</div>
                 <label asp-for="TestRecord.NurseId" class="control-label"></label>
                 @Html.DropDownListFor(q => q.TestRecord.NurseId, new SelectList(Model.Nurses, "Value", "Text"), "Select Which Nurse", new { @class = "form-control" })
             </div>
-            <div class="form-group">
-                <label asp-for="TestRecord.TestResultId" class="control-label"></label>
-                @Html.DropDownListFor(q => q.TestRecord.TestResultId, new SelectList(Enum.GetValues(typeof(TestResultEnum))), "Select result", new { @class = "form-control" })
-            </div>
+            
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="TestRecord.ToLab" /> @Html.DisplayNameFor(model => model.TestRecord.ToLab)

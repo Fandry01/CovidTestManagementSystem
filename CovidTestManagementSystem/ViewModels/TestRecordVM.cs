@@ -1,4 +1,4 @@
-﻿using CovidTestManagementSystem.Enum;
+﻿using CovidTestManagementSystem.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -9,10 +9,13 @@ namespace CovidTestManagementSystem.Models
 {
     public class TestRecordVM
     {
-        public TestRecord TestRecord { get; set; }   
+        public int Id { get; set; }
+        public TestRecord TestRecord { get; set; }
         public IEnumerable<SelectListItem> Nurses { get; set; }
         public List<TestTypes> TestTypes { get; set; }
-        
+        public ReportStatusEnum reportStatus { get; set; }
+        public IEnumerable<SelectListItem> ReportStatuses { get; set; }
+        public IEnumerable<SelectListItem> TestResults { get; set; }
     }
 
     public class PatientTestRecordVM
@@ -30,6 +33,13 @@ namespace CovidTestManagementSystem.Models
         public int PendingTest { get; set; }
         public List<TestRecord> TestRecords { get; set; }
         public List<TestAppointment> TestAppointments { get; set; }
+    }
+
+    public class DetailsTestRecordVM 
+    {
+        public int Id { get; set; }
+        public TestRecord TestRecord { get; set; }
+        public ReportStatusEnum ReportStatus { get; set; }
     }
 
 }

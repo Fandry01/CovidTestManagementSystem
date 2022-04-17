@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using CovidTestManagementSystem.Contracts;
+using CovidTestManagementSystem.Enums;
 using CovidTestManagementSystem.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -58,30 +60,80 @@ namespace CovidTestManagementSystem.Controllers
         public IActionResult MyAdmin()
         {
             var testRecords = _testRepository.FindAll();
-            var testrecordsmodel = testRecords;
+            var testAppointments = _testAppointRepository.FindAll().Where(p => p.TestRecord == null);
 
             AdminTestRecordVM vm = new AdminTestRecordVM()
             {           
-                TestAppointments = _testAppointRepository.FindAll().ToList(),
-                TestRecords = testRecords.ToList()
+                TestAppointments = testAppointments.ToList(),
+                TestRecords = testRecords.ToList(),
+                PendingTest = testRecords.Where(p => p.TestResult == null).Count(),
+                TotalTestRequests = testAppointments.Count(),
+                CovidNegative = testRecords.Where(p => p.TestResult == TestResultEnum.Negative).Count(),
+                CovidPositive = testRecords.Where(p => p.TestResult == TestResultEnum.Postive).Count()
             };
 
             return View(vm);
         }
-        /*public IActionResult MyTest()
+        public ActionResult Edit(int id)
         {
-            var patient = _userManager.GetUserAsync(User);
-            var patientid = patient.Id.ToString();
-            var patientrequest = _testRepository.GetTestRecordsByPerson(patientid);
-
-            var patientmodel = _mapper.Map<List<TestRecordVM>>(patientrequest);
-
-            var model = new PatientTestRecordVM
+            if (!_testRepository.IsExists(id))
             {
-                TestRecords = patientmodel
-            };
-
+                return NotFound();
+            }
+            var testrecord = _testRepository.FindById(id);
+            var model = _mapper.Map<TestRecordVM>(testrecord);
             return View(model);
-        }*/
-    }
+        }
+
+        // POST: TestAppointmentController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(TestRecordVM model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+                var testrecord = model.TestRecord;
+                var isSucces = _testRepository.Update(testrecord);
+                if (!isSucces)
+                {
+                    ModelState.AddModelError("", "Something Went Wrong");
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                ModelState.AddModelError("", "Something Went Wrong");
+                return View(model);
+            }
+        }
+        public ActionResult Details(int id)
+        {
+            var testrecord = _testRepository.FindById(id);
+            var model = _mapper.Map<DetailsTestRecordVM>(testrecord);
+            return View(model);
+        }
+
+
+
+            /*public IActionResult MyTest()
+            {
+                var patient = _userManager.GetUserAsync(User);
+                var patientid = patient.Id.ToString();
+                var patientrequest = _testRepository.GetTestRecordsByPerson(patientid);
+
+                var patientmodel = _mapper.Map<List<TestRecordVM>>(patientrequest);
+
+                var model = new PatientTestRecordVM
+                {
+                    TestRecords = patientmodel
+                };
+
+                return View(model);
+            }*/
+        }
 }

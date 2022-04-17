@@ -17,7 +17,7 @@ namespace CovidTestManagementSystem.Repository
         }
         public bool Create(TestRecord entity)
         {
-          _db.TestRecords.Add(entity);
+            _db.TestRecords.Add(entity);
 
             return Save();
         }

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using CovidTestManagementSystem.Enum;
+using CovidTestManagementSystem.Enums;
 
 namespace CovidTestManagementSystem.Controllers
 {
@@ -16,22 +16,29 @@ namespace CovidTestManagementSystem.Controllers
         
         private readonly ITestAppointRepository _appointmentRepo;
         private readonly INursesRepository _nursesrepo;
+        private readonly ITestRecordRepository _testRecordRepository;
 
-        public TestRecordController(ITestAppointRepository p_appointmentRepo,  INursesRepository p_nursesRepo)
+        public TestRecordController(
+            ITestAppointRepository p_appointmentRepo, 
+            INursesRepository p_nursesRepo, 
+            ITestRecordRepository p_testRecordRepo)
         {
             _appointmentRepo = p_appointmentRepo;
             _nursesrepo = p_nursesRepo;
+            _testRecordRepository = p_testRecordRepo;
         }
 
         // GET: TestRecordController
         public ActionResult Index()
         {
-            return View();
+            var listOfTestRecords = _testRecordRepository.FindAll();
+            return View(listOfTestRecords);
         }
 
         // GET: TestRecordController/Details/5
         public ActionResult Details(int id)
         {
+            var testrecord = _testRecordRepository.FindById(id);
             return View();
         }
 
@@ -44,8 +51,21 @@ namespace CovidTestManagementSystem.Controllers
                 Text = q.Name,
                 Value = q.Id.ToString()
             });
-             
 
+            // Itereren over enum en collecteren alle ints
+            var listOfReportStatus = new List<int>();
+            foreach(int i in Enum.GetValues(typeof(ReportStatusEnum)))
+            {
+                listOfReportStatus.Add(i); //  0, 1, 2, 3, 4
+            }
+
+            // Select all values en maken er een nieuwe selectlist van met custom properties (Text, Value)
+            var selectListOfReportStatus = listOfReportStatus.Select(q => new SelectListItem
+            {
+                Text = Enum.GetName(typeof(ReportStatusEnum), q),
+                Value = q.ToString()
+            });
+            
             var appointment = _appointmentRepo.FindById(appointmentId);
             if(appointmentId == 0)
             {
@@ -54,10 +74,10 @@ namespace CovidTestManagementSystem.Controllers
             
 
             var testRecordVM = new TestRecordVM();
+            testRecordVM.ReportStatuses = selectListOfReportStatus;
             testRecordVM.TestRecord = new TestRecord()
             {
                 TestAppointment = appointment,
-                
             };
             testRecordVM.Nurses = SelectListOfNurses;
            
@@ -73,17 +93,37 @@ namespace CovidTestManagementSystem.Controllers
         {
             try
             {
+                // Create Test Record
+                var testRecord = new TestRecord();
+                testRecord.NurseId = vm.TestRecord.NurseId;
+                testRecord.ToLab = vm.TestRecord.ToLab;
+                testRecord.ReportStatus = SetReportStatus(testRecord);
+                testRecord.TestTimeslot = DateTime.Now;
 
-                var testrecord = new TestRecord();
-                testrecord.ReportStatus = vm.TestRecord.ReportStatus;
-                testrecord.NurseId = vm.TestRecord.NurseId;
-                testrecord.ToLab = vm.TestRecord.ToLab;
+                if (vm.TestRecord.TestAppointment != null)
+                {
+                    testRecord.AppointmentId = (int)vm.TestRecord.TestAppointment.Id;
+                    testRecord.TestTypeId = (int)vm.TestRecord.TestAppointment.TestTypeId;
+                }
+                else
+                {
+                    throw new ArgumentNullException("Appointment ID is null, this value cannot be null");
+                }
+
+                // Update of Test Appointment
+                var testAppointment = _appointmentRepo.FindById((int)vm.TestRecord.TestAppointment.Id);
+                testAppointment.TestRecord = testRecord;
+
+                _testRecordRepository.Create(testRecord);
+                _appointmentRepo.Update(testAppointment);
+
                 return RedirectToAction(nameof(Index));
-
             }
-            catch
+            catch(Exception ex)
             {
-                return View();
+                
+                throw new Exception(ex.Message);
+            
             }
         }
 
@@ -107,6 +147,8 @@ namespace CovidTestManagementSystem.Controllers
                 return View();
             }
         }
+
+
 
         // GET: TestRecordController/Delete/5
         public ActionResult Delete(int id)
