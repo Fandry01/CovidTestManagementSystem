@@ -18,7 +18,6 @@ namespace CovidTestManagementSystem.Mappings
             CreateMap<TestAppointment, TestAppointmentVM>().ReverseMap();
             CreateMap<TestAppointment, EditTestAppointmentVM>().ReverseMap();
             CreateMap<TestRecord, TestRecordVM>().ReverseMap();
-            CreateMap<TestRecord, DetailsTestRecordVM>().ReverseMap();
 
         }
     }

@@ -35,11 +35,5 @@ namespace CovidTestManagementSystem.Models
         public List<TestAppointment> TestAppointments { get; set; }
     }
 
-    public class DetailsTestRecordVM 
-    {
-        public int Id { get; set; }
-        public TestRecord TestRecord { get; set; }
-        public ReportStatusEnum ReportStatus { get; set; }
-    }
 
 }

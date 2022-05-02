@@ -1,4 +1,5 @@
 ﻿@model CovidTestManagementSystem.Models.PatientDashboardVM
+@using CovidTestManagementSystem.Enums
 
 @{
     ViewData["Title"] = "PatientDashboardIndex";
@@ -52,19 +53,13 @@
             <thead>
                 <tr>
                     <th>
-                        ReportStatus
-                    </th>
-                    <th>
                         Test Type
                     </th>
                     <th>
                         Test TimeSlot
                     </th>
                     <th>
-                        Nurse
-                    </th>
-                    <th>
-                        Final test raport
+                        Test Result
                     </th>
                     <th></th>
                 </tr>
@@ -83,11 +78,17 @@
                             @Html.DisplayFor(modelItem => item.TestTimeslot)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.ReportStatus)
+                            @if (item.TestResult == TestResultEnum.Negative)
+                            {
+                                <span class="badge badge-success">Covid negatief</span>
+                            }
+                            else if (item.TestResult == TestResultEnum.Postive)
+                            {
+                                <span class="badge badge-danger">Covid Positive</span>
+                            }
                         </td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a class="btn" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                             <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         </td>
                     </tr>
@@ -99,6 +100,3 @@
 
 </div>
 <!-- /.card -->
-
-
-

@@ -7,7 +7,7 @@
 
 <h1>Create</h1>
 
-<h4>TestRecordVM</h4>
+<h4>TestRecord</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -21,14 +21,19 @@
                 <label asp-for="TestRecord.TestAppointment.TestTypeId" class="control-label"></label>
                 <input asp-for="TestRecord.TestAppointment.TestTypeId" class="form-control" readonly />
             </div>
-            <div class="form-group"><div class="form-group">
-    <label asp-for="TestRecord.TestResultId" class="control-label"></label>
-    @Html.DropDownListFor(q => q.TestRecord.TestResultId, Model.ReportStatuses, "Select result", new { @class = "form-control" })
-</div>
+            <div class="form-group">
+                <label asp-for="TestRecord.TestAppointment.PatientId" class="control-label"></label>
+                <input asp-for="TestRecord.TestAppointment.PatientId" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <div class="form-group">
+                    <label asp-for="TestRecord.ReportStatus" class="control-label"></label>
+                    @Html.DropDownListFor(q => q.TestRecord.ReportStatusId, new SelectList(Model.ReportStatuses, "Value", "Text"), "Select current status", new { @class = "form-control" })
+                </div>
                 <label asp-for="TestRecord.NurseId" class="control-label"></label>
                 @Html.DropDownListFor(q => q.TestRecord.NurseId, new SelectList(Model.Nurses, "Value", "Text"), "Select Which Nurse", new { @class = "form-control" })
             </div>
-            
+
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="TestRecord.ToLab" /> @Html.DisplayNameFor(model => model.TestRecord.ToLab)
@@ -36,7 +41,8 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="TestRecord.ReportStatus" /> @Html.DisplayNameFor(model => model.TestRecord.ReportStatus)
+                    <label asp-for="TestRecord.TestResultId" class="control-label"></label>
+                    @Html.DropDownListFor(q => q.TestRecord.TestResultId, new SelectList(Model.TestResults, "Value", "Text"), "Select result", new { @class = "form-control" })
                 </label>
             </div>
             <div class="form-group">
@@ -47,6 +53,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-outline-primary" asp-action="Index">Back to List</a>
 </div>
 

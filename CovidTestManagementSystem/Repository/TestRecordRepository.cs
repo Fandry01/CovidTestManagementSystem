@@ -35,6 +35,7 @@ namespace CovidTestManagementSystem.Repository
             {
                 rec.Patient = _db.Persons.Find(rec.Patient);
                 rec.TestType = _db.TestTypes.Find(rec.TestTypeId);
+                rec.Nurse = _db.Nurses.Find(rec.NurseId);
             }
             return records;
         }
@@ -42,6 +43,8 @@ namespace CovidTestManagementSystem.Repository
         public TestRecord FindById(int id)
         {
             var record = _db.TestRecords.Find(id);
+            record.Patient = _db.Persons.Find(record.PatientId);
+            record.TestType = _db.TestTypes.Find(record.TestTypeId);
             return record;
         }
 

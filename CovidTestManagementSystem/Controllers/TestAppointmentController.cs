@@ -125,14 +125,14 @@ namespace CovidTestManagementSystem.Controllers
                 {
                     return View(model);
                 }
-                var appointment = _mapper.Map<TestAppointment>(model);
+                var appointment = _repo.FindById(model.Id);
                 var isSucces = _repo.Update(appointment);
                 if (!isSucces)
                 {
-                    ModelState.AddModelError("", "Something went Wrong");
+                    ModelState.AddModelError("", "Error While Saving");
                     return View(model);
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new {id = model.Id }) ;
             }
             catch
             {
@@ -144,17 +144,39 @@ namespace CovidTestManagementSystem.Controllers
         // GET: TestAppointmentController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var testAppointment = _repo.FindById(id);
+            if (testAppointment == null)
+            {
+                return NotFound();
+            }
+            var isSucces = _repo.Delete(testAppointment);
+            if (!isSucces)
+            {
+                return BadRequest();
+            }
+            return RedirectToAction(nameof(Index));
+
         }
 
         // POST: TestAppointmentController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, TestAppointmentVM model)
         {
             try
             {
+                var testAppointment = _repo.FindById(id);
+                if (testAppointment == null)
+                {
+                    return NotFound();
+                }
+                var isSucces = _repo.Delete(testAppointment);
+                if (!isSucces)
+                {
+                    return BadRequest();
+                }
                 return RedirectToAction(nameof(Index));
+                
             }
             catch
             {

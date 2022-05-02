@@ -4,20 +4,42 @@ using CovidTestManagementSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CovidTestManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220419173748_changeToString")]
+    partial class changeToString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.17")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("CovidTestManagementSystem.Models.DetailsTestRecordVM", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ReportStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TestRecordId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TestRecordId");
+
+                    b.ToTable("DetailsTestRecordVM");
+                });
 
             modelBuilder.Entity("CovidTestManagementSystem.Models.Nurse", b =>
                 {
@@ -131,6 +153,41 @@ namespace CovidTestManagementSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TestTypes");
+                });
+
+            modelBuilder.Entity("CovidTestManagementSystem.ViewModels.TestAppointmentVM", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("AppointmentTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("NurseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PatientId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("TestRecordId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TestTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NurseId");
+
+                    b.HasIndex("PatientId");
+
+                    b.HasIndex("TestRecordId");
+
+                    b.HasIndex("TestTypeId");
+
+                    b.ToTable("TestAppointmentVM");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -364,6 +421,13 @@ namespace CovidTestManagementSystem.Migrations
                     b.HasDiscriminator().HasValue("Person");
                 });
 
+            modelBuilder.Entity("CovidTestManagementSystem.Models.DetailsTestRecordVM", b =>
+                {
+                    b.HasOne("CovidTestManagementSystem.Models.TestRecord", "TestRecord")
+                        .WithMany()
+                        .HasForeignKey("TestRecordId");
+                });
+
             modelBuilder.Entity("CovidTestManagementSystem.Models.TestAppointment", b =>
                 {
                     b.HasOne("CovidTestManagementSystem.Models.Person", "Patient")
@@ -372,13 +436,12 @@ namespace CovidTestManagementSystem.Migrations
 
                     b.HasOne("CovidTestManagementSystem.Models.TestRecord", "TestRecord")
                         .WithOne("TestAppointment")
-                        .HasForeignKey("CovidTestManagementSystem.Models.TestAppointment", "TestRecordId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("CovidTestManagementSystem.Models.TestAppointment", "TestRecordId");
 
                     b.HasOne("CovidTestManagementSystem.Models.TestTypes", "TestType")
                         .WithMany()
                         .HasForeignKey("TestTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -399,6 +462,25 @@ namespace CovidTestManagementSystem.Migrations
                         .HasForeignKey("TestTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CovidTestManagementSystem.ViewModels.TestAppointmentVM", b =>
+                {
+                    b.HasOne("CovidTestManagementSystem.Models.Nurse", "Nurse")
+                        .WithMany()
+                        .HasForeignKey("NurseId");
+
+                    b.HasOne("CovidTestManagementSystem.Models.Person", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId");
+
+                    b.HasOne("CovidTestManagementSystem.Models.TestRecord", "TestRecord")
+                        .WithMany()
+                        .HasForeignKey("TestRecordId");
+
+                    b.HasOne("CovidTestManagementSystem.Models.TestTypes", "TestType")
+                        .WithMany()
+                        .HasForeignKey("TestTypeId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

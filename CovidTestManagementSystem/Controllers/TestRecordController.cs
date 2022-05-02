@@ -65,7 +65,20 @@ namespace CovidTestManagementSystem.Controllers
                 Text = Enum.GetName(typeof(ReportStatusEnum), q),
                 Value = q.ToString()
             });
-            
+
+            var listOfTestResult = new List<int>();
+            foreach (int i in Enum.GetValues(typeof(TestResultEnum)))
+            {
+                listOfTestResult.Add(i); //  0, 1, 2, 3, 4
+            }
+
+            // Select all values en maken er een nieuwe selectlist van met custom properties (Text, Value)
+            var selectListOfTestResult = listOfTestResult.Select(q => new SelectListItem
+            {
+                Text = Enum.GetName(typeof(TestResultEnum), q),
+                Value = q.ToString()
+            });
+
             var appointment = _appointmentRepo.FindById(appointmentId);
             if(appointmentId == 0)
             {
@@ -75,6 +88,7 @@ namespace CovidTestManagementSystem.Controllers
 
             var testRecordVM = new TestRecordVM();
             testRecordVM.ReportStatuses = selectListOfReportStatus;
+            testRecordVM.TestResults = selectListOfTestResult;
             testRecordVM.TestRecord = new TestRecord()
             {
                 TestAppointment = appointment,
@@ -96,8 +110,10 @@ namespace CovidTestManagementSystem.Controllers
                 // Create Test Record
                 var testRecord = new TestRecord();
                 testRecord.NurseId = vm.TestRecord.NurseId;
+                testRecord.PatientId = vm.TestRecord.TestAppointment.PatientId;
                 testRecord.ToLab = vm.TestRecord.ToLab;
-                testRecord.ReportStatus = SetReportStatus(testRecord);
+                testRecord.ReportStatusId = (int)SetReportStatus(testRecord);
+                testRecord.TestResultId = vm.TestRecord.TestResultId;
                 testRecord.TestTimeslot = DateTime.Now;
 
                 if (vm.TestRecord.TestAppointment != null)
@@ -153,16 +169,36 @@ namespace CovidTestManagementSystem.Controllers
         // GET: TestRecordController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var testRecord = _testRecordRepository.FindById(id);
+            if (testRecord == null)
+            {
+                return NotFound();
+            }
+            var isSucces = _testRecordRepository.Delete(testRecord);
+            if (!isSucces)
+            {
+                return BadRequest();
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: TestRecordController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, TestRecordVM model)
         {
             try
             {
+                var testRecord = _testRecordRepository.FindById(id);
+                if (testRecord == null)
+                {
+                    return NotFound();
+                }
+                var isSucces = _testRecordRepository.Delete(testRecord);
+                if (!isSucces)
+                {
+                    return BadRequest();
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch

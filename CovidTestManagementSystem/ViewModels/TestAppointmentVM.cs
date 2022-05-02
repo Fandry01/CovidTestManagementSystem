@@ -1,5 +1,4 @@
 ﻿using CovidTestManagementSystem.Models;
-using CovidTestManagementSystem.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -38,10 +37,8 @@ namespace CovidTestManagementSystem.ViewModels
 
     public class EditTestAppointmentVM
     {
-       public TestAppointmentVM Id { get; set; }
+        public int Id { get; set; }
         public DateTime AppointmentTime { get; set; }
-        public IEnumerable<SelectListItem> TestType { get; set; }
-        public int TestTypeId { get; set; }
     }
 
 

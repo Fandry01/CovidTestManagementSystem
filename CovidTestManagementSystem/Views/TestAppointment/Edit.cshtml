@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/_AdminLTE.cshtml";
 }
 
-<h1>Edit</h1>
+<h1>Edit Your Appointment Date and Time</h1>
 
-<h4>TestAppointmentVM</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -20,10 +20,6 @@
                 <span asp-validation-for="AppointmentTime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TestTypeId" class="control-label"></label>
-                @Html.DropDownListFor(q => q.TestTypeId, new SelectList(Model.TestType, "Value", "Text"), "Change Test Type", new { @class = "form-control" });
-            </div>
-            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -31,6 +27,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-outline-primary" asp-action="Index">Back to List</a>
 </div>
 

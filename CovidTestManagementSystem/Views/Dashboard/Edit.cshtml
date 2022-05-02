@@ -20,11 +20,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="TestRecord.TestResultId" class="control-label"></label>
-                @Html.DropDownListFor(q => q.TestRecord.TestResultId, Model.ReportStatuses, "Select result", new { @class = "form-control" })
+                @Html.DropDownListFor(q => q.TestRecord.ReportStatusId, Model.ReportStatuses, "Select result", new { @class = "form-control" })
             </div>
             <div class="form-group">
                 <label asp-for="TestRecord.TestResultId" class="control-label"></label>
-                @Html.DropDownListFor(q => q.TestRecord.TestResultId, Model.ReportStatuses, "Select result", new { @class = "form-control" })
+                @Html.DropDownListFor(q => q.TestRecord.NurseId, new SelectList(Model.Nurses, "Value", "Text"), "Select Which Nurse", new { @class = "form-control" })
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

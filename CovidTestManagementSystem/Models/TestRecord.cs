@@ -16,9 +16,9 @@ namespace CovidTestManagementSystem.Models
         public DateTime TestTimeslot { get; set; }
 
         [ForeignKey("PatientId")]
-        public int PatientId { get; set; }
+        public string PatientId { get; set; }
         [ForeignKey("AppointmentId")]
-        public int AppointmentId { get; set; }
+        public int  AppointmentId { get; set; }
         [ForeignKey("NurseId")]
         public int NurseId { get; set; }
         [ForeignKey("TestTypeId")]
@@ -28,6 +28,7 @@ namespace CovidTestManagementSystem.Models
         public Person Patient { get; set; }
         public Nurse Nurse { get; set; }
         public TestTypes TestType { get; set; }
+        
         public TestAppointment TestAppointment { get; set; }
 
         // Conversion methods of enum properties

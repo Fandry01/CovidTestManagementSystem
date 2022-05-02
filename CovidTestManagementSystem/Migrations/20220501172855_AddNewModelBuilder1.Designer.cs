@@ -4,14 +4,16 @@ using CovidTestManagementSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CovidTestManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220501172855_AddNewModelBuilder1")]
+    partial class AddNewModelBuilder1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,6 +55,9 @@ namespace CovidTestManagementSystem.Migrations
                     b.Property<int?>("TestRecordId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("TestRecordId2")
+                        .HasColumnType("int");
+
                     b.Property<int?>("TestTypeId")
                         .IsRequired()
                         .HasColumnType("int");
@@ -61,9 +66,11 @@ namespace CovidTestManagementSystem.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.HasIndex("TestRecordId")
+                    b.HasIndex("TestRecordId");
+
+                    b.HasIndex("TestRecordId2")
                         .IsUnique()
-                        .HasFilter("[TestRecordId] IS NOT NULL");
+                        .HasFilter("[TestRecordId2] IS NOT NULL");
 
                     b.HasIndex("TestTypeId");
 
@@ -371,8 +378,12 @@ namespace CovidTestManagementSystem.Migrations
                         .HasForeignKey("PatientId");
 
                     b.HasOne("CovidTestManagementSystem.Models.TestRecord", "TestRecord")
+                        .WithMany()
+                        .HasForeignKey("TestRecordId");
+
+                    b.HasOne("CovidTestManagementSystem.Models.TestRecord", null)
                         .WithOne("TestAppointment")
-                        .HasForeignKey("CovidTestManagementSystem.Models.TestAppointment", "TestRecordId")
+                        .HasForeignKey("CovidTestManagementSystem.Models.TestAppointment", "TestRecordId2")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("CovidTestManagementSystem.Models.TestTypes", "TestType")

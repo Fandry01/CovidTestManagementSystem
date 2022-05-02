@@ -114,8 +114,7 @@ namespace CovidTestManagementSystem.Controllers
         public ActionResult Details(int id)
         {
             var testrecord = _testRepository.FindById(id);
-            var model = _mapper.Map<DetailsTestRecordVM>(testrecord);
-            return View(model);
+            return View(testrecord);
         }
 
 

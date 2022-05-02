@@ -148,7 +148,7 @@
                 NursesId
             </th>
             <th>
-                FinalReportStatus
+                Test result
             </th>
             <th></th>
         </tr>
@@ -158,6 +158,7 @@
         {
             <tr>
                 <td>
+                    @Html.DisplayFor(modelItem => item.ReportStatus)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TestTypeId)
@@ -184,7 +185,7 @@
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-controller="TestRecord" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
         }
